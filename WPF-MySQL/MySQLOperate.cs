@@ -14,18 +14,24 @@ namespace WPF_MySQL
     /// </summary>
     class MySQLOperate
     {
-        public MySqlConnection MySqlInstance;
-        public string SqlCmd;
+        public static MySqlConnection MySqlInstance;
+        public static string SqlCmd;
 
-        //连接数据库
-        public void DatabaseConnect()
+        /// <summary>
+        /// 连接Mysql数据库
+        /// </summary>
+        public static void DatabaseConnect()
         {
             string str = "Server=127.0.0.1;User ID=root;Password=wen1229;Database=project;CharSet=gbk;";
             MySqlInstance = new MySqlConnection(str);//实例化链接
             MySqlInstance.Open();//开启连接
         }
 
-        public DataSet DatabaseExcute()
+        /// <summary>
+        /// 执行SQL语句，返回数据集
+        /// </summary>
+        /// <returns>填充查询结果的数据集</returns>
+        public static DataSet DatabaseExcute()
         {
             MySqlCommand cmd = new MySqlCommand(SqlCmd, MySqlInstance);
             MySqlDataAdapter ada = new MySqlDataAdapter(cmd);
@@ -34,5 +40,12 @@ namespace WPF_MySQL
             return ds;
         }
 
+        /// <summary>
+        /// 断开与数据库连接
+        /// </summary>
+        public static void DatabaseClose()
+        {
+            MySqlInstance.Close();
+        }
     }
 }
